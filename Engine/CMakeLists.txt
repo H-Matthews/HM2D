@@ -20,22 +20,15 @@ FetchContent_MakeAvailable(glfw)
 
 # GLAD — OpenGL 4.6 Core loader, generated via the glad2 CLI (see
 # README.md for how to regenerate with a different version/extensions).
-# Note the filenames: glad2 outputs gl.h / gl.c, not glad.h / glad.c like
-# older glad1-based tutorials use — #include <glad/gl.h> when you write
-# GLFWWindow.cpp, and call gladLoadGL(...), not gladLoadGLLoader(...).
 add_library(glad STATIC vendor/glad/src/gl.c)
 target_include_directories(glad PUBLIC vendor/glad/include)
 
-# Engine has no .cpp files yet, so it's INTERFACE for now (include paths
-# only, nothing compiled). Once you add real sources under src/, switch
-# this to STATIC and list them, e.g.:
-#
-#   add_library(Engine STATIC
-#       src/Application.cpp
-#   )
-#   target_link_libraries(Engine PRIVATE glfw glad)   # both already available below
-add_library(Engine INTERFACE)
+set(SRC src/Application.cpp
+        src/ApplicationState.cpp)
 
-target_include_directories(Engine INTERFACE
+add_library(Engine STATIC ${SRC})
+target_link_libraries(Engine PRIVATE glfw glad)
+
+target_include_directories(Engine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )

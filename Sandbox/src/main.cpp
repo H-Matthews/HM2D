@@ -1,9 +1,12 @@
 #include <iostream>
 
-int main() {
+#include "Application.h"
 
-    // Create Engine::Application once there is one
-    std::cout << "HM2D" << std::endl;
+int main() {
+    Engine::Application app;
+
+    app.initialize();
+    app.run();
 
     return 0;
 }
